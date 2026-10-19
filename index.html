@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FRAME | دنیای فیلم و سریال</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b0b0e;color:#f5f5f5;font-family:Tahoma,Arial,sans-serif}
+header{padding:22px 7%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #26262c}
+.logo{font-size:25px;font-weight:bold;letter-spacing:2px}
+.logo span{color:#ff343f}
+header a{color:#bbb;text-decoration:none}
+.hero{padding:65px 7% 55px;background:radial-gradient(ellipse at top right,#46131b,#171014 48%,#0b0b0e 80%)}
+.tag{color:#ff5962;font-size:13px}
+h1{font-size:clamp(30px,6vw,53px);line-height:1.5;margin:15px 0}
+.hero p{color:#bbb;line-height:2;max-width:520px}
+.search{display:flex;gap:8px;max-width:490px;margin-top:25px}
+input{width:100%;padding:15px;border:1px solid #37373e;border-radius:9px;background:#17171c;color:white;font-size:15px}
+button{cursor:pointer;border:0;border-radius:9px;padding:12px 17px;background:#ff343f;color:white;font-size:14px}
+main{padding:35px 7% 60px}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px}
+h2{font-size:22px}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0 25px}
+.filters button{background:#1b1b21;color:#bbb;border:1px solid #33333b}
+.filters button.active{background:#ff343f;color:white;border-color:#ff343f}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:18px}
+.card{background:#151519;border:1px solid #28282e;border-radius:12px;overflow:hidden;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:#ff343f}
+.poster{height:205px;display:flex;align-items:end;padding:14px;background:linear-gradient(0deg,#09090bf2,transparent 75%),var(--bg)}
+.poster b{font-size:19px;line-height:1.6}
+.info{padding:13px}
+.info h3{font-size:15px;margin:2px 0 10px}
+.meta{font-size:12px;color:#999;line-height:2}
+.desc{font-size:12px;color:#bbb;line-height:1.9;min-height:45px}
+.more{width:100%;background:#24242b;color:#fff;margin-top:8px}
+.empty{display:none;color:#aaa;padding:25px 0}
+footer{text-align:center;padding:25px;color:#777;border-top:1px solid #25252b;font-size:12px}
+@media(max-width:420px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.poster{height:175px}header{padding:18px 5%}main{padding:25px 5%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">FR<span>AME</span></div>
+  <a href="#movies">کشف فیلم‌ها 🎬</a>
+</header>
+
+<section class="hero">
+  <span class="tag">دنیای داستان‌های فراموش‌نشدنی</span>
+  <h1>فیلم خوب،<br>یک دنیای دیگر است.</h1>
+  <p>از جنایت‌های مرموز تا ماجراجویی‌های هیجان‌انگیز؛ فیلم بعدی موردعلاقه‌ات را اینجا پیدا کن.</p>
+  <div class="search">
+    <input id="search" placeholder="اسم فیلم یا سریال..." aria-label="جست‌وجوی فیلم">
+    <button onclick="render()">جست‌وجو</button>
+  </div>
+</section>
+
+<main id="movies">
+  <div class="section-title">
+    <h2>پیشنهادهای منتخب</h2>
+    <span class="tag">FRAME PICKS</span>
+  </div>
+  <div class="filters">
+    <button class="active" data-cat="همه">همه</button>
+    <button data-cat="فیلم">فیلم</button>
+    <button data-cat="سریال">سریال</button>
+    <button data-cat="جنایی">جنایی</button>
+    <button data-cat="معمایی">معمایی</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">چیزی پیدا نشد! اسم دیگری امتحان کن.</div>
+</main>
+
+<footer>FRAME © 2026 — برای عاشقان سینما ساخته شده 🎞️</footer>
+
+<script>
+const items=[
+{title:"Breaking Bad",fa:"بریکینگ بد",year:"2008",cat:"سریال",genre:"جنایی",bg:"linear-gradient(135deg,#b58c30,#34452a 55%,#111)",desc:"داستانی پرتنش درباره انتخاب‌ها و پیامدهایشان."},
+{title:"Dark",fa:"دارک",year:"2017",cat:"سریال",genre:"معمایی",bg:"linear-gradient(135deg,#53666b,#222b38 55%,#090b10)",desc:"معمایی پیچیده درباره زمان و رازهای یک شهر."},
+{title:"Interstellar",fa:"میان‌ستاره‌ای",year:"2014",cat:"فیلم",genre:"ماجراجویی",bg:"linear-gradient(135deg,#c08b65,#34364c 50%,#080a16)",desc:"سفری فضایی برای پیدا کردن آینده‌ای برای بشر."},
+{title:"The Batman",fa:"بتمن",year:"2022",cat:"فیلم",genre:"جنایی",bg:"linear-gradient(135deg,#a72a30,#292329 55%,#080808)",desc:"کارآگاهی تاریک در شهری پر از فساد و راز."},
+{title:"Sherlock",fa:"شرلوک",year:"2010",cat:"سریال",genre:"معمایی",bg:"linear-gradient(135deg,#537a85,#30303e 55%,#09090d)",desc:"پرونده‌های دشوار با کارآگاهی نابغه."},
+{title:"Inception",fa:"تلقین",year:"2010",cat:"فیلم",genre:"معمایی",bg:"linear-gradient(135deg,#b47c4d,#41404a 55%,#08080c)",desc:"مرز باریک میان رؤیا و واقعیت."}
+];
+let category="همه";
+function render(){
+const q=document.getElementById("search").value.toLowerCase().trim();
+const filtered=items.filter(x=>(category==="همه"||x.cat===category||x.genre===category)&&[x.title,x.fa,x.genre,x.cat,x.year].some(v=>v.toLowerCase().includes(q)));
+document.getElementById("grid").innerHTML=filtered.map(x=>`
+<article class="card">
+<div class="poster" style="--bg:${x.bg}"><b>${x.fa}</b></div>
+<div class="info">
+<h3>${x.title}</h3>
+<div class="meta">${x.year} · ${x.cat} · ${x.genre}</div>
+<p class="desc">${x.desc}</p>
+<button class="more" onclick="detail('${x.title}')">درباره اثر</button>
+</div></article>`).join("");
+document.getElementById("empty").style.display=filtered.length?"none":"block";
+}
+function detail(title){
+const x=items.find(i=>i.title===title);
+alert(x.fa+" ("+x.year+")\n"+x.desc+"\n\nژانر: "+x.genre+"\n\nاین معرفی کوتاه است؛ اطلاعات بیشتری بعداً اضافه می‌کنیم.");
+}
+document.querySelectorAll(".filters button").forEach(btn=>btn.addEventListener("click",()=>{
+category=btn.dataset.cat;
+document.querySelectorAll(".filters button").forEach(b=>b.classList.toggle("active",b===btn));
+render();
+}));
+document.getElementById("search").addEventListener("input",render);
+render();
+</script>
+</body>
+</html>
